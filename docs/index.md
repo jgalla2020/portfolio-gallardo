@@ -3,9 +3,9 @@
 layout: home
 
 hero:
-  name: "TODO: Title"
-  text: "TODO: Subtitle"
-  tagline: "TODO: Tagline"
+  name: "Jabes Gallardo"
+  text: "A ComMITted Student's Portfolio"
+  tagline: "My 6.1040 Website"
   actions:
     - theme: brand
       text: Template Repository
