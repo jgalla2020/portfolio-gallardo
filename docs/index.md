@@ -21,5 +21,6 @@ features:
   - title: Assignments
     details: All of your assignments will be posted on your portfolio.
   - title: About Me
-    details: You'll implement a small bio about yourself on here!
+    details: Some information about me in case you're interested!
+    link: about
 ---
