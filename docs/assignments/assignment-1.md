@@ -1,1 +1,6 @@
-# My Assignments
+---
+title: Assignment 1
+layout: doc
+---
+
+# Assignment 1
