@@ -15,47 +15,51 @@ layout: doc
 
 ## Scrapbook of Comparables
 
-### App 1
+<!-- For each app, add... -->
 
 <!-- App Clipping -->
 <!-- Description of Origin and What it Shows -->
 <!-- How is it Useful to My Design Brainstorming -->
+
+### App 1
 
 ### App 2
 
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
-
 ### App 3
-
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
 
 ### App 4
 
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
-
 ### App 5
-
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
 
 ### App 6
 
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
-
 ### App 7
 
-<!-- App Clipping -->
-<!-- Description of Origin and What it Shows -->
-<!-- How is it Useful to My Design Brainstorming -->
+### App 8
+
+### App 9
+
+### App 10
+
+### App 11
+
+### App 12
+
+### App 13
+
+### App 14
+
+### App 15
+
+### App 16
+
+### App 17
+
+### App 18
+
+### App 19
+
+### App 20
 
 ## Brainstorming Feature Ideas
 
