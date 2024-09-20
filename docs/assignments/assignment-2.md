@@ -197,6 +197,6 @@ This allows the user to group their connections into different categories since 
 
 <!-- For each flow, produce a storyboard and show actions with a UI -->
 
-### User Flow 1
-
-### User Flow 2
+<div align="center">
+  <img src="/../assets/images/user_flows.png" alt="user_flows" width="500">
+</div>
