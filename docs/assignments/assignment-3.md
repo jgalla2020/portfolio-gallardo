@@ -102,22 +102,32 @@ This app allows users, both mentors and mentees, to specify their general availa
 
 ```
 app SeekNFind
+    ...including other standard concepts...
+
     include Recording[Text, Textbox], Sharing[Task, Email], Messaging[User]
     include TaskSetting[User], Tracking[Task]
     include Requiring[Criteria, Connection], Qualifying[Connection]
+
+    sync
+
+    sync
+
+    sync
+
+    sync
 ```
 
 ### Dependency Diagram
 
-<!-- <div align="center">
+<div align="center">
   <img src="/../assets/images/dependency_diagram.png" alt="dependency_diagram" width="500">
-</div> -->
+</div>
 
 <h2 align="center">
     Wireframes 📒
 </h2>
-<!--
-<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="688" height="450" src="https://embed.figma.com/design/Y5Pv0tcc4fsD4EhETAW5zv/A3-Wireframe?node-id=11-96&embed-host=share" allowfullscreen></iframe> -->
+
+<!-- <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="688" height="450" src="https://embed.figma.com/design/Y5Pv0tcc4fsD4EhETAW5zv/A3-Wireframe?node-id=11-96&embed-host=share" allowfullscreen></iframe> -->
 
 <h2 align="center"> 
     Design Tradeoffs ⚖️
