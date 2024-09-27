@@ -26,11 +26,11 @@ This app allows users, both mentors and mentees, to specify their general availa
    - **Purpose**: record information on some medium
    - **Operational Principle**: after recording information on some medium, the user can view what they have recorded, make edits, and save those edits. The user can also delete the entire piece of information or a part of it.
    - **State**:
-     - f
+     - const information: Info
    - **Actions**:
      - record(information: Info, medium: Medium)
-     - view()
-     - edit()
+     - view(out information: Info)
+     - edit(commands: List)
      - delete()
 
 2. **Sharing[Item, Address]**
@@ -38,7 +38,8 @@ This app allows users, both mentors and mentees, to specify their general availa
    - **Purpose**: share an item to an address
    - **Operational Principle**: the user selects an item, specifies a recipient address to share the item with. The user can view the other users with whom they have shared the item and remove or add users if they would like to.
    - **State**:
-     - f
+     - const item: Item
+     - const address: Address
    - **Actions**:
      - select(item: Item)
      - addAddress(address: Address)
@@ -50,10 +51,11 @@ This app allows users, both mentors and mentees, to specify their general availa
    - **Purpose**: directly message a recipient
    - **Operational Principle**: after a user writes a text message and does not delete it, they can send it directly to a recipient. The user can view, edit or delete the message.
    - **State**:
-     - f
+     - const textMessage: Message
+     - const recipient: Recipient
    - **Actions**:
      - write()
-     - edit()
+     - edit(commands: List)
      - delete()
      - send(recipient: Recipient)
 
@@ -62,41 +64,53 @@ This app allows users, both mentors and mentees, to specify their general availa
    - **Purpose**: assign a task for some other user to complete
    - **Operational Principle**: the user specifies the details of the task like the description and due date, and assigns that task to another user. The user who created and assigned the task can check back in to modify the task specification, due date, or persons assigned.
    - **State**:
-     - f
+     - const users: set User
+     - const tasks: set Task
+     - const assignedTo: task --> set User
    - **Actions**:
      - specify()
-     - assign()
-     - unassign()
-     - modify()
-     - complete()
+     - assign(user: User)
+     - unassign(user: User)
+     - edit()
+     - complete(out task: Task)
 
 5. **Tracking[Item]**
 
    - **Purpose**: track the completion of some item with a due date
    - **Operational Principle**: the user selects an item and sees the percentage completed and how much time left until it is due.
    - **State**:
-     - f
+     - const items: set Item
+     - const status: set Status
+     - const progressOf: item --> status
    - **Actions**:
      - select(item: Item)
-     - getInfo()
+     - getInfo(item: Item, out status: Status)
 
 6. **Requiring[Criteria, Privilege]**
 
    - **Purpose**: provide required criteria to obtain some privilege
    - **Operational Principle**: user specifies a set of criteria that other users must meet to receive a privilege. The user can modify these criteria or privilege.
    - **State**:
-     - f
+     - const criteria: set Criteria
+     - const privilege: Privilege
    - **Actions**:
-     - f
+     - addCriteria(criteria: Criteria)
+     - deleteCriteria(criteria: Criteria)
+     - changePrivilege(newPrivilege: Privilege)
+     - publish(out set Criteria)
 
 7. **Qualifying[Privilege]**
 
    - **Purpose**: determine a plan for how to qualify for some privilege
    - **Operational Principle**: after selecting a privilege, the user receives a step-based plan to complete to access the privilege. This plan is saved for the user to review later, as well as to create tasks out of this plan.
    - **State**:
-     - f
+     - const plan: set Task
+     - const active: set Task
+     - const privilege: Privilege
    - **Actions**:
-     - f
+     - getPlan(privilege: Privilege, out plan: set Task)
+     - addTask(task: Task)
+     - removeTask(task: Task)
 
 ### App-Level Actions and Synchronization
 
@@ -108,13 +122,17 @@ app SeekNFind
     include TaskSetting[User], Tracking[Task]
     include Requiring[Criteria, Connection], Qualifying[Connection]
 
-    sync
+    sync sendMessage()
 
-    sync
+    sync setCriteria()
 
-    sync
+    sync getEligibilityPlan()
 
-    sync
+    sync createTask()
+
+    sync trackTask()
+
+    sync assignTask()
 ```
 
 ### Dependency Diagram
