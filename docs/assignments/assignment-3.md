@@ -22,69 +22,121 @@ This app allows users, both mentors and mentees, to specify their general availa
 
 ### Concepts
 
-1. **Messaging[Recipient]**
-
-   - **Purpose**: directly message a recipient
-   - **Operational Principle**: after a user writes a text message and does not delete it, they can send it directly to a recipient. The user can revisit, edit or delete the message.
-   - **State**:
-   - **Actions**:
-
-2. **Recording[Medium]**
+1. **Recording[Info, Medium]**
 
    - **Purpose**: record information on some medium
    - **Operational Principle**: after recording information on some medium, the user can view what they have recorded, make edits, and save those edits. The user can also delete the entire recording.
    - **State**:
+     - f
    - **Actions**:
+     - record(information: Info, medium: Medium)
+     - view()
+     - edit()
+     - delete()
 
-3. **Sharing[Item, Address]**
+2. **Sharing[Item, Address]**
 
    - **Purpose**: share an item to an address
    - **Operational Principle**: the user selects an item, specifies a recipient address to share the item with. The user can view the other users with whom they have shared the item and remove or add users if they would like to.
    - **State**:
+     - f
    - **Actions**:
+     - select(item: Item)
+     - addAddress(address: Address)
+     - share(address: Address)
+     - removeAddress(address: Address)
+
+3. **Messaging[Recipient]**
+
+   - **Purpose**: directly message a recipient
+   - **Operational Principle**: after a user writes a text message and does not delete it, they can send it directly to a recipient. The user can view, edit or delete the message.
+   - **State**:
+     - f
+   - **Actions**:
+     - write()
+     - edit()
+     - delete()
+     - send(recipient: Recipient)
 
 4. **TaskSetting[User]**
 
    - **Purpose**: assign a task for some other user to complete
    - **Operational Principle**: the user specifies the details of the task like the description and due date, and assigns that task to another user. The user who created and assigned the task can check back in to modify the task specification, due date, or persons assigned.
    - **State**:
+     - f
    - **Actions**:
+     - specify()
+     - assign()
+     - unassign()
+     - modify()
+     - complete()
 
 5. **Tracking[Item]**
 
    - **Purpose**: track the completion of some item with a due date
    - **Operational Principle**: the user selects an item and sees the percentage completed and how much time left until it is due.
    - **State**:
+     - f
    - **Actions**:
+     - select(item: Item)
+     - getInfo()
 
 6. **Requiring[Criteria, Privilege]**
 
    - **Purpose**: provide required criteria to obtain some privilege
    - **Operational Principle**: user specifies a set of criteria that other users must meet to receive a privilege. The user can modify these criteria or privilege.
    - **State**:
+     - f
    - **Actions**:
+     - f
 
 7. **Qualifying[Privilege]**
 
    - **Purpose**: determine a plan for how to qualify for some privilege
    - **Operational Principle**: after selecting a privilege, the user receives a step-based plan to complete to access the privilege. This plan is saved for the user to review later, as well as to create tasks out of this plan.
    - **State**:
+     - f
    - **Actions**:
+     - f
 
 ### App-Level Actions and Synchronization
 
 ### Dependency Diagram
 
+<div align="center">
+  <img src="/../assets/images/dependency_diagram.png" alt="dependency_diagram" width="500">
+</div>
+
 <h2 align="center"> 
     Wireframes 📒
 </h2>
+
+<iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="688" height="450" src="https://embed.figma.com/design/Y5Pv0tcc4fsD4EhETAW5zv/A3-Wireframe?node-id=11-96&embed-host=share" allowfullscreen></iframe>
 
 <h2 align="center"> 
     Design Tradeoffs ⚖️
 </h2>
 
-### Tradeoff 1
+### Mentor-Mentee Connection Model
 
-### Tradeoff 2
+- **Options**:
+  1. Allow only mutual connections without the ability for the user to create requirements.
+  2. Allow only mutual connections but with the ability to create requirements and to become eligible to meet them.
+  3. No requirements or mutual connections; allowing one-sided requests like in mainstream social media.
+- **Rationale**: This increases the likelihood of the mentee taking the necessary steps to prepare for the mentorship, and reduces the chances of the mentor being reached out to by unqualified mentees. This app is meant to foster committed and recurring one-on-one connections, which is not accomplished as effectively through one-sided requests. This might seem restrictive if it prevents certain connections, but that is why there is the option to edit requirements and "level up" based on the eligibility plan provided.
 
-### Tradeoff 3
+### Mentor/Mentee Search
+
+- **Options**:
+  1. Provide advanced filtering and ability to create custom filters near the search bar.
+  2. Lay out the general categories and sub-categories of the types of mentors offered.
+  3. Only allow keyword search.
+- **Rationale**: As a user that prefers designs that lend themselves to exploration and well-informed development of preferences, I chose option 2 because it gives the user a good idea of what they can find on the app without knowing exactly what they are looking for. This also allows the user to narrow down their desired choices by clicking through categories that go from general to specific. Though advanced filtering is great for users with highly specific needs, option 2 is a good starting point.
+
+### Task Creation and Sharing
+
+- **Options**:
+  1. Allow users to jot down bullet points in a generic to-do list just for themselves.
+  2. Allow users to create task items with a due date option; it is just for themselves.
+  3. Allow users to create task items with a due date option; they can share and assign them to others in their network.
+- **Rationale**: Option 2 and 3 supersede option 1 because they provide a due date option and make more concrete the notion of a task that the user must complete separate from other tasks. I chose option 2 because I mentors to be able to assign tasks to their mentees in a way where they can both keep track of the progression.
