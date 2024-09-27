@@ -100,11 +100,26 @@ This app allows users, both mentors and mentees, to specify their general availa
 
 ### App-Level Actions and Synchronization
 
+<!-- -->
+
+```
+app SeekNFind
+    include Recording[Text, Textbox], Sharing[Task, Email], Messaging[User]
+    include TaskSetting[User], Tracking[Task]
+    include Requiring[Criteria, Connection], Qualifying[Connection]
+```
+
+<!-- -->
+
 ### Dependency Diagram
+
+<!-- -->
 
 <div align="center">
   <img src="/../assets/images/dependency_diagram.png" alt="dependency_diagram" width="500">
 </div>
+
+<!-- -->
 
 <h2 align="center"> 
     Wireframes 📒
