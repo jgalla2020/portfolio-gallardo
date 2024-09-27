@@ -157,7 +157,7 @@ app SeekNFind
     Wireframes 📒
 </h2>
 
-<!-- <iframe style="border: 1px solid rgba(0, 0, 0, 0.1);" width="688" height="450" src="https://embed.figma.com/design/Y5Pv0tcc4fsD4EhETAW5zv/A3-Wireframe?node-id=11-96&embed-host=share" allowfullscreen></iframe> -->
+Go to this link please: https://embed.figma.com/design/Y5Pv0tcc4fsD4EhETAW5zv/A3-Wireframe?node-id=11-96&embed-host=share.
 
 <h2 align="center"> 
     Design Tradeoffs ⚖️
