@@ -21,7 +21,7 @@ This app allows users, both mentors and mentees, to specify their general availa
 
 ### Concepts
 
-<!-- 1. **Recording[Info, Medium]**
+1. **Recording[Info, Medium]**
 
    - **Purpose**: record information on some medium
    - **Operational Principle**: after recording information on some medium, the user can view what they have recorded, make edits, and save those edits. The user can also delete the entire piece of information or a part of it.
@@ -105,7 +105,7 @@ app SeekNFind
     include Recording[Text, Textbox], Sharing[Task, Email], Messaging[User]
     include TaskSetting[User], Tracking[Task]
     include Requiring[Criteria, Connection], Qualifying[Connection]
-``` -->
+```
 
 ### Dependency Diagram
 
