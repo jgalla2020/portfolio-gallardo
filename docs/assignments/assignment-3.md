@@ -54,7 +54,7 @@ This app allows users, both mentors and mentees, to specify their general availa
      - const textMessage: Message
      - const recipient: Recipient
    - **Actions**:
-     - write()
+     - write(textMessage: Message)
      - edit(commands: List)
      - delete()
      - send(recipient: Recipient)
@@ -68,7 +68,7 @@ This app allows users, both mentors and mentees, to specify their general availa
      - const tasks: set Task
      - const assignedTo: task --> set User
    - **Actions**:
-     - specify()
+     - specify(details: String)
      - assign(user: User)
      - unassign(user: User)
      - edit()
@@ -94,6 +94,7 @@ This app allows users, both mentors and mentees, to specify their general availa
      - const criteria: set Criteria
      - const privilege: Privilege
    - **Actions**:
+     - initialize()
      - addCriteria(criteria: Criteria)
      - deleteCriteria(criteria: Criteria)
      - changePrivilege(newPrivilege: Privilege)
@@ -122,17 +123,28 @@ app SeekNFind
     include TaskSetting[User], Tracking[Task]
     include Requiring[Criteria, Connection], Qualifying[Connection]
 
-    sync sendMessage()
+    sync sendMessage(textMessage: String, recipient: Recipient)
+        Messaging.write(textMessage)
+        Messaging.send(recipient)
 
-    sync setCriteria()
+    sync setCriteria(criteriaList: set Criteria)
+        Requiring.initialize()
 
-    sync getEligibilityPlan()
+        for criteria in criteriaList:
+            Requiring.addCriteria(criteria)
 
-    sync createTask()
+    sync getEligibilityPlan(privilege: Privilege)
+        Qualifying.getPlan(privilege)
 
-    sync trackTask()
+    sync createTask(details: String)
+        TaskSetting.specify(details)
 
-    sync assignTask()
+    sync trackTask(task: Task)
+        Tracking.select(task)
+        Tracking.getInfo(task)
+
+    sync assignTask(user: User)
+        TaskSetting.assign(user)
 ```
 
 ### Dependency Diagram
