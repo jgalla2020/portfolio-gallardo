@@ -281,12 +281,18 @@ State Methods
     Working Implementation of Two Concepts
 </h2>
 
-Please go to this link to my repo.
+Please go to this link to my repo: https://github.com/jgalla2020/61040-A4.
+
+I unfortunately did not complete this. I look forward to finishing it for the final submission!
 
 <h2 align="center"> 
     Initial Deployment of Web Service
 </h2>
 
+I unfortunately did not complete this. I look forward to finishing it for the final submission!
+
 <h2 align="center"> 
     Outline of Route Design
 </h2>
+
+I unfortunately did not complete this. I look forward to finishing it for the final submission!
