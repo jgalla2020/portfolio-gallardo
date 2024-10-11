@@ -1,8 +1,8 @@
 ---
-title: UI Interaction Design
+title: User Testing
 layout: doc
 ---
 
-# UI Interaction Design Blog
+# User Testing Blog
 
 After Wednesday's lecture,
