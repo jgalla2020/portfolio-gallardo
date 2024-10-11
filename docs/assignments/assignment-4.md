@@ -9,7 +9,7 @@ layout: doc
     Abstract Data Models
 </h2>
 
-_The header titles are the names of my concepts. I changed the names and details of some concepts. For example, DirectMessaging was previously just Messaging._
+_The header titles are the names of my concepts. Based on the A3 feedback, I've modified my concepts._
 
 ### Recording
 
