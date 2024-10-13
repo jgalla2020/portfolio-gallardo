@@ -1,5 +1,5 @@
 ---
-title: UI Visual Design
+title: Blog 2 - UI Visual Design
 layout: doc
 ---
 

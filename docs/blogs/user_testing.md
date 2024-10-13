@@ -1,5 +1,5 @@
 ---
-title: User Testing
+title: Blog 3 - User Testing
 layout: doc
 ---
 
