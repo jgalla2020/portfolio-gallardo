@@ -5,96 +5,70 @@ layout: doc
 
 # Assignment 4: Backend Design and Implementation
 
+<h2 align="center">
+    Design Reflection
+</h2>
+
+I received great feedback from my data models in A3. My main additions where the Sessioning and Authenticating concepts since the rest of my concepts depended on the user being authenticated and/or having an active session. I also realized that many of my concepts had redundancies, particularly Sharing and DirectMessaging, so I combined these into one Messaging concept since they both dealt with sending some information to another user. I also generalized the TaskSetting concept to an Itemizing concept that allows the user to create arbitrary items with descriptions attached. My reasoning was that this concept could be used for many things, including creating tasks. Moreover, given that this is a social media app, I decided to add a Profiling concept for the user to make their profile where they can eventually describe their preferences, as well as other useful details for other users to see.
+
 <h2 align="center"> 
     Abstract Data Models
 </h2>
 
-_The header titles are the names of my concepts. Based on the A3 feedback, I've modified my concepts._
-
-### Recording
+### Itemizing [Creator]
 
 ```
 State Components
     Entities
-        mediums: set ContentType
+        items: Item
 
     Relations
-        finished, inProgress: Content -> ContentType
+        createdItems: Creator -> Item
 
 State Methods
-    beginRecord(content: Content, type: ContentType)
-        inProgress' = inProgress U {(content, type)}
+    createItem(creator: Creator, item: Item)
+        createdItems' = createdItems U {(creator, item)}
 
-    saveRecord(content: Content, type: ContentType)
-        inProgress' = inProgress - {(content, type)}
-        finished' = finished U {(content, type)}
+    updateItem(creator: Creator, oldItem: Item, newItem: Item)
+        if (creator, oldItem) not in createdItems:
+            throw an error
 
-    beginEdit(record: Record)
-        finished' = finished - {(record.content, record.type)}
-        inProgress' = inProgress U {(record.content, record.type)}
+        createdItems' = createdItems - {(creator, oldItem)}
+        createdItems' = createdItems U {(creator, newItem)}
 
-    makeEdit(oldRecord: Record, newContent: Content)
-        inProgress' = inProgress - {(oldRecord.content, oldRecord.type)}
-        inProgress' = inProgress U {(newContent, oldRecord.type)}
+    deleteItem(creator: Creator, item: Item)
+        createdItems' = createdItems - {(creator, item)}
+
+    getItems()
+        return all items
+
+    getItemsByCreator(creator: Creator)
+        return createdItems for creator
 ```
 
-### Sharing
+### Messaging [Contact]
 
 ```
 State Components
     Entities
-        types: set ItemType
-        addresses: set Address
-
-    Relations
-        items: Title -> ItemType
-        shareTo, sharedWith: Item -> set Address
-
-State Methods
-    createItem(title: Title, type: ItemType)
-        items' = items U {(title, type)}
-
-    addAddress(item: Item, address: Address)
-        addresses' = addresses U {address}
-        shareTo' = shareTo U {(item, address)}
-
-    removeAddress(address)
-        addresses' = addresses - {address}
-
-    shareItem(item: Item, address: Address)
-        shareTo' = shareTo - {(item, address)}
-        sharedWith' = sharedWith U {(item, address)}
-
-    unshareItem(item: Item, address: Address)
-        sharedWith' = sharedWith - {(item, address)}
-```
-
-### DirectMessaging
-
-```
-State Components
-    Entities
-        contacts: Contact
+        messages: TextMessage
 
     Relations
         sentMessages, queuedMessages: Contact -> TextMessage
 
 State Methods
-    addContact(contact: Contact)
-        contacts' = contacts U {contact}
+    createDraftMessage(contact: Contact, message: TextMessage, attachment?: Attachment)
+        queuedMessages' = queuedMessages U {(contact, message, attachment)}
 
-    deleteContact(contact: Contact)
-        contacts' = contacts - {contact}
-
-    createMessage(contact: Contact, message: TextMessage)
-        queuedMessages' = queuedMessages U {(contact, message)}
-
-    changeRecipient(oldContact: Contact, newContact: Contact, message: TextMessage)
-        if (oldContact, message) in sentMessages:
+    editDraftMessage(contact: Contact, oldMessage: TextMessage, newMessage: TextMessage, attachment?: Attachment)
+        if (contact, oldMessage) not in queuedMessages:
             throw an error
 
-        queuedMessages' = queuedMessages - {(oldContact, message)}
-        queuedMessages' = queuedMessages U {(newContact, message)}
+        queuedMessages' = queuedMessages - {(contact, oldMessage)}
+        queuedMessages' = queuedMessages U {(contact, newMessage, attachment)}
+
+    deleteDraftMessage(contact: Contact, message: TextMessage)
+        queuedMessages' = queuedMessages - {(contact, message)}
 
     sendMessage(contact: Contact, message: TextMessage)
         if (contact, message) not in queuedMessages:
@@ -103,196 +77,100 @@ State Methods
         queuedMessages' = queuedMessages - {(contact, message)}
         sentMessages' = sentMessages U {(contact, message)}
 
-    unsendMessage(contact: Contact, message: TextMessage)
-        if (contact, message) not in sentMessages:
-            throw an error
-
-        sentMessages' = sentMessages - {(contact, message)}
-
-    editQueuedMessage(contact: Contact, oldMessage: TextMessage, newMessage: TextMessage)
-        if (contact, oldMessage) not in queuedMessages:
-            throw an error
-
-        queuedMessages' = queuedMessages - {(contact, OldMessage)}
-        queuedMessages' = queuedMessages U {(contact, newMessage)}
-
-    editSentMessage(contact: Contact, oldMessage: TextMessage, newMessage: TextMessage)
+    editSentMessage(contact: Contact, oldMessage: TextMessage, newMessage: TextMessage, attachment?: Attachment)
         if (contact, oldMessage) not in sentMessages:
             throw an error
 
-        sentMessages' = sentMessages - {(contact, OldMessage)}
-        sentMessages' = sentMessages U {(contact, newMessage)}
+        sentMessages' = sentMessages - {(contact, oldMessage)}
+        sentMessages' = sentMessages U {(contact, newMessage, attachment)}
+
+    deleteSentMessage(contact: Contact, message: TextMessage)
+        sentMessages' = sentMessages - {(contact, message)}
+
+    readDraftMessages(contact: Contact)
+        return queuedMessages for contact
+
+    readSentMessages(contact: Contact)
+        return sentMessages for contact
+
+    readReceivedMessages(contact: Contact)
+        return sentMessages where contact is the recipient
 ```
 
-### TaskSetting
-
-```
-State Components
-    Entities
-        users: set User
-        tasks: set Task
-
-    Relations
-        assignable, assigned: User -> set Task
-
-State Methods
-    addTask(task: Task)
-        tasks' = tasks U {task}
-
-    deleteTask(task: Task)
-        tasks' = tasks - {task}
-
-    editTask(task: Task, updated: Description)
-        thisTask = tasks.get_task(task)
-        thisTask.info = updated
-
-    markComplete(task: Task)
-        thisTask = tasks.get_task(task)
-        thisTask.status = completed
-
-    addUser(user: User)
-        users' = users U {user}
-
-    addUserToTask(user: User, task: Task)
-        assignable' = assignable U {(user, task)}
-
-    deleteUser(user: User)
-        users' = users - {user}
-
-    assignTask(task: Task, user: User)
-        assignable' = assignable - {(user, task)}
-        assigned' = assigned U {(user, task)}
-
-    unassignTask(task: Task, user: User)
-        assigned' = assigned - {(user, task)}
-```
-
-### TrackingItems
+### Tracking [Executor]
 
 ```
 State Components
     Entities
-        items: set Item
-        statusTypes: set StatusType
+        goals: Goal
 
     Relations
-        statusOf: Item -> Status
-        incomplete: Item -> TimeStamp
-        completed: Item -> TimeStamp
+        createdGoals: Executor -> Goal
 
 State Methods
-    addItem(item: Item, status: Status)
-        items' = items U {item}
-        statusOf' = statusOf U {(item, status)}
+    createGoal(executor: Executor, goal: Goal)
+        createdGoals' = createdGoals U {(executor, goal)}
 
-    deleteItem(item: Item)
-        items' = items - {item}
+    viewGoals(executor: Executor)
+        return createdGoals for executor
 
-        status = stausOf[item]
-        statusOf' = statusOf - {(item, status)}
+    viewStatus(executor: Executor, status: GoalStatus)
+        return createdGoals for executor with status = status
 
-    checkStatus(item: Item)
-        return statusOf[item]
+    viewGoalById(goalId: Goal)
+        return goal with goalId
 
-    changeStatus(item: Item, oldStatus: Status, newStatus: Status)
-        statusOf' = statusOf - {(item, oldStatus)}
-        statusOf' = statusOf U {(item, newStatus)}
+    updateGoal(executor: Executor, oldGoal: Goal, newGoal: Goal)
+        if (executor, oldGoal) not in createdGoals:
+            throw an error
 
-    getComplete()
-        return {(item, timestamp) for item, timestamp in complete}
+        createdGoals' = createdGoals - {(executor, oldGoal)}
+        createdGoals' = createdGoals U {(executor, newGoal)}
 
-    getIncomplete()
-        return {(item, timestamp) for item, timestamp in incomplete}
+    deleteGoal(executor: Executor, goal: Goal)
+        createdGoals' = createdGoals - {(executor, goal)}
+
+    updateGoalStatuses()
+        change status of past due goals
 ```
 
-### Requiring
+### Profiling [User]
 
 ```
 State Components
     Entities
-        privileges: set Privilege
+        profiles: Profile
 
     Relations
-        requirements: Privilege -> set Criteria
+        userProfiles: User -> Profile
 
 State Methods
-    addPrivilege(privilege: Privilege)
-        privileges' = privileges U {privilege}
+    createProfile(user: User, profile: Profile)
+        userProfiles' = userProfiles U {(user, profile)}
 
-    removePrivilege(privilege: Privilege)
-        privileges' = privileges - {privilege}
-        delete requirements[privilege]
+    viewProfile(user: User)
+        return userProfiles for user
 
-    addRequirement(privilege: Privilege, requirement: Criteria)
-        requirements[privilege] = requirements[privilege] U {requirement}
+    updateProfile(user: User, updatedProfile: Profile)
+        if (user, oldProfile) not in userProfiles:
+            throw an error
 
-    removeRequirement(privilege: Privilege, requirement: Criteria)
-        requirements[privilege] = requirements[privilege] - {requirement}
+        userProfiles' = userProfiles - {(user, oldProfile)}
+        userProfiles' = userProfiles U {(user, updatedProfile)}
 
-    editRequirement(privilege: Privilege, oldRequirement: Criteria, newRequirement: Criteria)
-        requirements[privilege] = requirements[privilege] - {oldRequirement}
-        requirements[privilege] = requirements[privilege] U {newRequirement}
-```
+    deleteProfile(user: User)
+        userProfiles' = userProfiles - {(user, profile)}
 
-### Qualifying
-
-```
-State Components
-    Entities
-        desired: set Privilege
-        qualified: set Privilege
-
-    Relations
-        plans: Privilege -> set Task
-
-State Methods
-    canAccess(privilege: Privilege)
-        return True if able to access privilege, False otherwise
-
-    addDesiredPrivilege(privilege: Privilege)
-        desired' = desired U {privilege}
-
-    generateTasks(privilege: Privilege)
-        return tasks based on requirements in privilege
-
-    startSeeking(privilege: Privilege)
-        desired' = desired U {privilege}
-
-        tasks = generateTasks(privilege)
-        plans' = plans U {(privilege, tasks)}
-
-    stopSeeking(privilege: Privilege)
-        desired' = desired - {privilege}
-        delete plans[privilege]
-
-    claimPrivilege(privilege: Privilege)
-        if plans[privilege] is completed:
-            delete plans[privilege]
-            desired' = desired - {privilege}
-            qualified' = qualified U {privilege}
-        else:
-            throw message of pending requirements to be met
-
-    renouncePrivilege(privilege: Privilege)
-        qualified' = qualified - {privilege}
 ```
 
 <h2 align="center"> 
-    Working Implementation of Two Concepts
+    Concept Implementations
 </h2>
 
 Please go to this link to my repo: https://github.com/jgalla2020/61040-A4.
 
-I unfortunately did not complete this. I look forward to finishing it for the final submission!
-
 <h2 align="center"> 
-    Initial Deployment of Web Service
+    Deployment of Web Service
 </h2>
 
-I unfortunately did not complete this. I look forward to finishing it for the final submission!
-
-<h2 align="center"> 
-    Outline of Route Design
-</h2>
-
-I unfortunately did not complete this. I look forward to finishing it for the final submission!
+Please go to my Vercel deployment: https://61040-a4-e27u7wz8e-jabes-gallardos-projects.vercel.app/.
