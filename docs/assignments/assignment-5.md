@@ -5,6 +5,8 @@ layout: doc
 
 # Assignment 5: Frontend Design & Implementation
 
+_I used ChatGPT to help me debug and to suggest code for concepts that I was unfamiliar with._
+
 ## Heuristic Evaluation and Writeup
 
 ### 1. Usability Heuristics
@@ -47,4 +49,4 @@ You can view these components in my [GitHub repo](https://github.com/jgalla2020/
 
 ## Attempt at Frontend Deployment
 
-Go here to view my deployment.
+Go [here](https://61040-a5-46gnmck5z-jabes-gallardos-projects.vercel.app) to view my deployment.
